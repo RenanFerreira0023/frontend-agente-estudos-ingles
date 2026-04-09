@@ -1,6 +1,9 @@
-# 📘 Assistente de Estudos Inteligente - Inglês
+# 📘 Assistente de Estudos Inteligente - Cliente (Frontend)
 
-Este projeto é um assistente automatizado para quem estuda inglês através de vídeos. Ele realiza a transcrição de arquivos de áudio/vídeo e utiliza um modelo de IA (LLM) para criar um relatório de estudos estruturado e formatado em Markdown.
+> [!NOTE]
+> Este repositório é parte integrante do sistema de estudos de inglês. Para o servidor de processamento de inteligência artificial e transcrição, consulte o repositório do **[Backend - Agente de Estudos de Inglês](https://github.com/RenanFerreira0023/backend-agente-estudos-ingles)**.
+
+Este projeto é a interface de linha de comando (CLI) que atua como cliente para o sistema de estudos. Ele trabalha em conjunto com o backend para processar as transcrições e gerar os relatórios utilizando GPU e LLMs.
 
 ## 🚀 Como Funciona?
 
@@ -76,3 +79,6 @@ Para agilizar os testes e economizar processamento, o sistema gera alguns arquiv
 *   `scripts/transcrever_api.py`: Gerencia o envio e recebimento de áudio via API.
 *   `scripts/gerar_relatorio_api.py`: Envia o texto para a IA gerar o relatório.
 *   *(Opcional)* `scripts/transcrever_local.py`: Versão para processamento direto na sua máquina (requer hardware robusto).
+
+> [!IMPORTANT]
+> O servidor backend ([Repositório Backend](https://github.com/RenanFerreira0023/backend-agente-estudos-ingles)) precisa estar ligado e acessível na sua rede local para que este cliente funcione corretamente. Certifique-se de que o IP em `config.json` ou `.env` corresponde ao IP da máquina que roda o backend.
