@@ -1,0 +1,28 @@
+# agents.skills - Configuração para Assistente de Estudo Offline
+skills:
+  - name: video_transcriber
+    description: "Extrai o áudio de um arquivo MP4 local e converte em texto usando OpenAI Whisper (Offline)."
+    input_type: "file_path"
+    output_type: "text"
+    execution_type: "python_script"
+    script_path: "./scripts/transcrever_local.py"
+
+  - name: study_notate_agent
+    description: "Processa a transcrição usando GPT4All para gerar relatório de aula estruturado."
+    input_type: "text"
+    output_type: "markdown_report"
+    execution_type: "python_script"
+    script_path: "./scripts/gerar_relatorio_offline.py"
+    parameters:
+      prompt_template: |
+        Aja como um aluno nota 10. Com base na transcrição:
+        1. Identifique a Unidade e o Número da Aula.
+        2. Qual o Tema de Estudos do dia (Ensinamento Principal)?
+        3. Liste tudo o que o professor mandou anotar explicitamente.
+        4. Crie um resumo para revisão rápida.
+
+  - name: report_saver
+    description: "Salva o relatório final em formato .md na pasta de estudos."
+    input_type: "markdown_report"
+    execution_type: "system_command"
+    command: "cat > relatorio_aula.md"
