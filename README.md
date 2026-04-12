@@ -1,26 +1,32 @@
-# 📘 Assistente de Estudos Inteligente - Cliente (Frontend)
+# 📘 Assistente de Estudos Inteligente - Modern Dashboard
 
 > [!NOTE]
-> Este repositório é parte integrante do sistema de estudos de inglês. Para o servidor de processamento de inteligência artificial e transcrição, consulte o repositório do **[Backend - Agente de Estudos de Inglês](https://github.com/RenanFerreira0023/backend-agente-estudos-ingles)**.
+> Este repositório é o **Frontend Moderno** do sistema de estudos de inglês. Para o servidor de processamento de inteligência artificial e transcrição, consulte o repositório do **[Backend - Agente de Estudos de Inglês](https://github.com/RenanFerreira0023/backend-agente-estudos-ingles)**.
 
-Este projeto é a interface de linha de comando (CLI) que atua como cliente para o sistema de estudos. Ele trabalha em conjunto com o backend para processar as transcrições e gerar os relatórios utilizando GPU e LLMs.
+Este projeto agora conta com uma interface gráfica (GUI) moderna e intuitiva que centraliza todo o fluxo de estudos, desde a seleção do vídeo até a leitura do relatório final.
+
+## ✨ Novidades da Interface
+- **🚀 Dashboard Moderno**: Visual limpo com tema escuro e barra de progresso.
+- **🖥️ Terminal de Logs Integrado**: Acompanhe o que o robô está fazendo em tempo real sem precisar olhar para o console.
+- **📂 Seletor Nativo**: Escolha seus vídeos usando o explorador de arquivos padrão do Windows.
+- **🛠️ Ferramentas Rápidas**: Botão para apagar caches (Mock) e abrir o relatório com um clique.
+
+---
 
 ## 🚀 Como Funciona?
 
-1.  **Transcrição**: O projeto envia o áudio para um servidor remoto com GPU para uma transcrição rápida.
-2.  **Processamento**: O texto transcrito é enviado para um Agente de IA que organiza o conteúdo em tópicos facilitando o estudo.
-3.  **Resultado**: Um arquivo `relatorio_aula.md` é gerado com todo o conteúdo formatado.
+1.  **Transcrição**: O sistema extrai o áudio e envia para um servidor remoto com GPU.
+2.  **Processamento**: O texto é processado por um Agente de IA que organiza o conteúdo.
+3.  **Resultado**: Um arquivo `relatorio_aula.md` é gerado e pode ser aberto direto pelo Dashboard.
 
 ---
 
 ## 🛠️ Pré-requisitos
 
-Para rodar este projeto, você precisará de:
-
 1.  **Python 3.10+** instalado.
 2.  **FFmpeg**: Necessário para extrair o áudio dos vídeos.
-    *   *No Windows*: Você pode baixar o executável e adicionar à sua variável de ambiente PATH.
-3.  **Uma API Remota**: O projeto está configurado para se conectar a um servidor de transcrição e geração de texto (configurado no IP da sua rede local).
+    *   *No Windows*: Baixe o executável e adicione à sua variável de ambiente PATH.
+3.  **Servidor Backend**: O backend precisa estar rodando em uma máquina da sua rede.
 
 ---
 
@@ -36,7 +42,7 @@ Para rodar este projeto, você precisará de:
     pip install -r requirements.txt
     ```
 3.  **Configure o IP do Servidor**:
-    Edite o arquivo `config.json` ou o arquivo `.env` na raiz do projeto com o endereço IP do seu servidor de IA:
+    Edite o arquivo `config.json` ou o arquivo `.env` na raiz do projeto:
     ```json
     {
       "LLM_API_BASE_URL": "http://192.168.0.X:8000"
@@ -47,38 +53,38 @@ Para rodar este projeto, você precisará de:
 
 ## 📖 Como Usar
 
-Existem duas formas de iniciar o assistente:
+### 🖥️ Opção 1: Interface Gráfica (Recomendado)
+A forma mais fácil e completa de usar o assistente.
+```powershell
+python gui_main.py
+```
+- Clique em **NOVA TRANSCRIÇÃO** para escolher o vídeo.
+- Acompanhe o progresso na barra azul.
+- Ao final, clique em **ABRIR RELATÓRIO**.
 
-### Opção 1: Seleção via Janela (Mais fácil)
-Basta rodar o comando abaixo e uma janela de seleção de arquivos abrirá:
+### ⌨️ Opção 2: Linha de Comando (Legacy)
+Se preferir o terminal puro:
 ```powershell
 python main.py
 ```
 
-### Opção 2: Linha de Comando (Direto)
-Passe o caminho do vídeo diretamente no comando:
-```powershell
-python main.py "C:/Caminho/Para/Seu/Video.mp4"
-```
-
 ---
 
-## 🧹 Arquivos de Cache e Mock
+## 🧹 Gestão de Cache e Mocks
 
-Para agilizar os testes e economizar processamento, o sistema gera alguns arquivos temporários:
+No Dashboard, você tem botões dedicados para gerenciar esses arquivos:
 
-*   **`mock_audio_extraido.m4a`**: O sistema extrai apenas o áudio para enviar à API. Se você quiser processar um vídeo novo, certifique-se de apagar ou renomear este arquivo se ele for de uma aula anterior.
-*   **`transcricao_mock.txt`**: Salva a última transcrição feita. Se este arquivo existir, o `main.py` irá usá-lo em vez de chamar a API novamente (útil para testar o formato do relatório sem gastar créditos/GPU).
-*   **`relatorio_aula.md`**: É o resultado final pronto para ser lido no seu leitor de Markdown favorito.
+*   **LIMPAR MOCK**: Apaga o arquivo `transcricao_mock.txt`. Use isso quando quiser processar um vídeo novo ignorando a última transcrição salva.
+*   **ABRIR RELATÓRIO**: Abre instantaneamente o arquivo `relatorio_aula.md` no seu editor padrão.
 
 ---
 
 ## 📂 Estrutura de Scripts
 
-*   `main.py`: O orquestrador principal.
-*   `scripts/transcrever_api.py`: Gerencia o envio e recebimento de áudio via API.
+*   `gui_main.py`: A nova interface moderna (KivyMD).
+*   `main.py`: Orquestrador via linha de comando.
+*   `scripts/transcrever_api.py`: Gerencia a comunicação com a API de transcrição.
 *   `scripts/gerar_relatorio_api.py`: Envia o texto para a IA gerar o relatório.
-*   *(Opcional)* `scripts/transcrever_local.py`: Versão para processamento direto na sua máquina (requer hardware robusto).
 
 > [!IMPORTANT]
-> O servidor backend ([Repositório Backend](https://github.com/RenanFerreira0023/backend-agente-estudos-ingles)) precisa estar ligado e acessível na sua rede local para que este cliente funcione corretamente. Certifique-se de que o IP em `config.json` ou `.env` corresponde ao IP da máquina que roda o backend.
+> O servidor backend ([Repositório Backend](https://github.com/RenanFerreira0023/backend-agente-estudos-ingles)) precisa estar ligado e acessível para que as transcrições funcionem.
